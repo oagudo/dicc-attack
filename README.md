@@ -4,7 +4,7 @@ A Clojure library designed to make dictionary attacks given an encryption functi
 
 ## Usage
 
-(dictionary-attack "encrypted-pass-file" "dictionary" check-pass-func)
+(dictionary-attack "encrypted-pass-file" "dictionary-file" check-pass-func)
 
 where
 
