@@ -1,14 +1,11 @@
 # dicc-attack
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure library designed to make dictionary attacks given an encryption function (E)
 
 ## Usage
 
-FIXME
+(dictionary-attack "encrypted-pass-file" "dictionary" check-pass-func)
 
-## License
+where
 
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+    check-pass-func => E(plain-text) == encrypted-text
