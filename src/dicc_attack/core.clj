@@ -10,6 +10,15 @@
           (str plain-text "=F(" encrypted-text ")")
           nil))))
 
+(defn- parallel-dictionary-attack-text [dictionary check-pass-func encrypted-text]
+  "Parallel version of dictionary-attack-text"
+  (if (clojure.string/blank? encrypted-text) nil
+      (with-open [rdr (clojure.java.io/reader dictionary)]
+        (if-let [plain-text (first (filter #(not (nil? %))
+                                           (pmap #(if (check-pass-func % encrypted-text) % nil) (line-seq rdr))))]
+          (str plain-text "=F(" encrypted-text ")")
+          nil))))
+
 (defn check-bcrypt [plain-text encrypted-text]
   "Checks if encrypted-text = BCrypt(plain-text)"
   (BCrypt/checkpw plain-text encrypted-text))
@@ -24,4 +33,4 @@
   "Parallel version of crack-from-file"
   [file dictionary check-pass-func]
   (with-open [rdr (clojure.java.io/reader file)]
-    (doall (pmap #(dictionary-attack-text dictionary check-pass-func %) (line-seq rdr)))))
+    (doall (pmap #(parallel-dictionary-attack-text dictionary check-pass-func %) (line-seq rdr)))))
